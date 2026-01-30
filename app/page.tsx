@@ -190,7 +190,7 @@ function TarjetaMensaje({
               size="sm"
               variant="outline"
               className="text-xs"
-              onClick={() => setAccion(accion === "editar" ? null : "editar")}
+              onClick={() => setAccion("editar")}
               disabled={enviando}
             >
               Editar
