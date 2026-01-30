@@ -20,6 +20,22 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+### Libro de visitas y Supabase
+
+Los mensajes se guardan en Supabase (tabla `mensajes`). En `.env.local` necesitas:
+
+- `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` (para leer mensajes).
+- **`SUPABASE_SERVICE_ROLE_KEY`** (clave "service_role" en Supabase → Settings → API): sin ella, **editar y eliminar** fallan por políticas RLS. Añádela solo en el servidor (nunca la expongas en el cliente).  
+  **Alternativa:** ejecuta en Supabase (SQL Editor) el archivo `supabase/politicas-mensajes.sql` para permitir edición y eliminación con la clave anon.
+
+Para habilitar **respuestas** a mensajes, añade en la tabla `mensajes` una columna opcional:
+
+- **Nombre:** `parent_id`
+- **Tipo:** `uuid` (nullable)
+- **Referencia:** opcional, a `mensajes(id)` para respuestas anidadas
+
+Si no añades `parent_id`, la app seguirá funcionando; solo no se podrán guardar respuestas (editar y eliminar sí funcionan).
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
